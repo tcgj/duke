@@ -30,6 +30,9 @@ public class Duke {
                 case "todo": case "deadline": case "event":
                     addTask(data);
                     break;
+                case "delete":
+                    deleteTask(data);
+                    break;
                 default:
                     throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
