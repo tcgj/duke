@@ -98,29 +98,39 @@ public class Duke {
         writer.flush();
     }
 
-    protected Task getTask(int taskNo) throws DukeException {
+    protected Task getTask(String taskStr) throws DukeException {
         try {
+            int taskNo = Integer.parseInt(taskStr);
             return list.get(taskNo - 1);
+        } catch (NumberFormatException e) {
+            throw new DukeException("OOPS!!! That is not a valid list number.");
         } catch (IndexOutOfBoundsException e) {
             throw new DukeException("OOPS!!! This task does not exist.");
         }
     }
 
     protected void setTaskDone(String[] data) throws DukeException {
-        int taskNo;
         if (data.length != 2) {
             throw new DukeException("OOPS!!! I don't know which task has been done.");
         }
-        try {
-            taskNo = Integer.parseInt(data[1]);
-        } catch (NumberFormatException e) {
-            throw new DukeException("OOPS!!! That is not a valid list number.");
-        }
 
-        Task task = getTask(taskNo);
+        Task task = getTask(data[1]);
         task.markAsDone();
         writer.println("Nice! I've marked this task as done:");
         writer.println("  " + task);
+        writer.flush();
+    }
+
+    protected void deleteTask(String[] data) throws DukeException {
+        if (data.length != 2) {
+            throw new DukeException("OOPS!!! I don't know which task to delete.");
+        }
+
+        Task task = getTask(data[1]);
+        list.remove(task);
+        writer.println("Noted. I've removed this task:");
+        writer.println("  " + task);
+        writer.println("Now you have " + list.size() + " tasks in the list.");
         writer.flush();
     }
 
