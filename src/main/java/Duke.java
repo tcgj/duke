@@ -14,37 +14,31 @@ public class Duke {
 
     public int mainFlow() throws IOException {
         String input = reader.readLine();
-        if (input == null) {
+        if (input == null || input.equals("bye")) {
             return 1;
         }
 
-        String[] data = input.split("\\s+", 2);
-        String[] details;
-        switch (data[0]) {
-            case "bye":
-                return 1;
-            case "list":
-                displayTaskList();
-                break;
-            case "done":
-                setTaskDone(Integer.parseInt(data[1]));
-                break;
-            case "todo":
-                addTask(new TodoTask(data[1]));
-                break;
-            case "deadline":
-                details = data[1].split("\\s+\\/by\\s+", 2);
-                addTask(new DeadlineTask(details[0], details[1]));
-                break;
-            case "event":
-                details = data[1].split("\\s+\\/at\\s+", 2);
-                addTask(new EventTask(details[0], details[1]));
-                break;
-            default:
-                break;
+        try {
+            String[] data = input.split("\\s+", 2);
+            switch (data[0].toLowerCase()) {
+                case "list":
+                    displayTaskList();
+                    break;
+                case "done":
+                    setTaskDone(data);
+                    break;
+                case "todo": case "deadline": case "event":
+                    addTask(data);
+                    break;
+                default:
+                    throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+            }
+        } catch (DukeException e) {
+            writer.println(e.getMessage());
+            writer.flush();
+        } finally {
+            return 0;
         }
-
-        return 0;
     }
 
     protected void run() {
@@ -74,7 +68,29 @@ public class Duke {
         writer.flush();
     }
 
-    protected void addTask(Task task) {
+    protected void addTask(String[] taskInfo) throws DukeException {
+        String command = taskInfo[0].toLowerCase();
+
+        if (taskInfo.length != 2 || taskInfo[1].isEmpty()) {
+            throw new DukeException("OOPS!!! The description of a " + command + " cannot be empty.");
+        }
+
+        Task task;
+        String[] details;
+        try {
+            if (command.equals("todo")) {
+                task = new TodoTask(taskInfo[1]);
+            } else if (command.equals("deadline")) {
+                details = taskInfo[1].split("\\s+\\/by\\s+", 2);
+                task = new DeadlineTask(details[0], details[1]);
+            } else {
+                details = taskInfo[1].split("\\s+\\/at\\s+", 2);
+                task = new EventTask(details[0], details[1]);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new DukeException("OOPS!!! You did not specify a datetime.");
+        }
+
         list.add(task);
         writer.println("Got it. I've added this task:");
         writer.println("  " + task);
@@ -82,11 +98,25 @@ public class Duke {
         writer.flush();
     }
 
-    protected Task getTask(int taskNo) {
-        return list.get(taskNo - 1);
+    protected Task getTask(int taskNo) throws DukeException {
+        try {
+            return list.get(taskNo - 1);
+        } catch (IndexOutOfBoundsException e) {
+            throw new DukeException("OOPS!!! This task does not exist.");
+        }
     }
 
-    protected void setTaskDone(int taskNo) {
+    protected void setTaskDone(String[] data) throws DukeException {
+        int taskNo;
+        if (data.length != 2) {
+            throw new DukeException("OOPS!!! I don't know which task has been done.");
+        }
+        try {
+            taskNo = Integer.parseInt(data[1]);
+        } catch (NumberFormatException e) {
+            throw new DukeException("OOPS!!! That is not a valid list number.");
+        }
+
         Task task = getTask(taskNo);
         task.markAsDone();
         writer.println("Nice! I've marked this task as done:");
