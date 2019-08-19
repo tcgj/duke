@@ -1,61 +1,85 @@
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Duke {
+    protected BufferedReader reader;
+    protected PrintWriter writer;
     protected ArrayList<Task> list;
 
-    public Duke() {
+    public Duke(InputStream in, OutputStream out) {
+        reader = new BufferedReader(new InputStreamReader(in));
+        writer = new PrintWriter(out);
         list = new ArrayList<>();
     }
 
-    public void run() {
-        String helloText = "Hello! I'm Duke\nWhat can I do for you?";
-        System.out.println(helloText);
-
-        Scanner sc = new Scanner(System.in);
-        while (sc.hasNextLine()) {
-            boolean willExit = false;
-            String[] input = sc.nextLine().split("\\s+", 2);
-            String[] details;
-
-            switch(input[0]) {
-                case "bye":
-                    System.out.println("Bye. Hope to see you again soon!");
-                    willExit = true;
-                    break;
-                case "list":
-                    displayList();
-                    break;
-                case "done":
-                    setTaskDone(Integer.parseInt(input[1]));
-                    break;
-                case "todo":
-                    addTask(new TodoTask(input[1]));
-                    break;
-                case "deadline":
-                    details = input[1].split("\\s+\\/by\\s+", 2);
-                    addTask(new DeadlineTask(details[0], details[1]));
-                    break;
-                case "event":
-                    details = input[1].split("\\s+\\/at\\s+", 2);
-                    addTask(new EventTask(details[0], details[1]));
-                    break;
-                default:
-                    break;
-            }
-
-            if (willExit) {
-                break;
-            }
+    public int mainFlow() throws IOException {
+        String input = reader.readLine();
+        if (input == null) {
+            return 1;
         }
-        sc.close();
+
+        String[] data = input.split("\\s+", 2);
+        String[] details;
+        switch (data[0]) {
+            case "bye":
+                return 1;
+            case "list":
+                displayTaskList();
+                break;
+            case "done":
+                setTaskDone(Integer.parseInt(data[1]));
+                break;
+            case "todo":
+                addTask(new TodoTask(data[1]));
+                break;
+            case "deadline":
+                details = data[1].split("\\s+\\/by\\s+", 2);
+                addTask(new DeadlineTask(details[0], details[1]));
+                break;
+            case "event":
+                details = data[1].split("\\s+\\/at\\s+", 2);
+                addTask(new EventTask(details[0], details[1]));
+                break;
+            default:
+                break;
+        }
+
+        return 0;
+    }
+
+    protected void run() {
+        try {
+            greet();
+            int returnCode = 0;
+            while (returnCode == 0) {
+                returnCode = mainFlow();
+            }
+            bye();
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace(writer);
+        } finally {
+            writer.close();
+        }
+    }
+
+    protected void greet() {
+        String helloText = "Hello! I'm Duke\nWhat can I do for you?";
+        writer.println(helloText);
+        writer.flush();
+    }
+
+    protected void bye() {
+        writer.println("Bye. Hope to see you again soon!");
+        writer.flush();
     }
 
     protected void addTask(Task task) {
         list.add(task);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + list.size() + " tasks in the list.");
+        writer.println("Got it. I've added this task:");
+        writer.println("  " + task);
+        writer.println("Now you have " + list.size() + " tasks in the list.");
+        writer.flush();
     }
 
     protected Task getTask(int taskNo) {
@@ -65,20 +89,22 @@ public class Duke {
     protected void setTaskDone(int taskNo) {
         Task task = getTask(taskNo);
         task.markAsDone();
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + task);
+        writer.println("Nice! I've marked this task as done:");
+        writer.println("  " + task);
+        writer.flush();
     }
 
-    protected void displayList() {
+    protected void displayTaskList() {
         int listSize = list.size();
-        System.out.println("Here are the tasks in your list:");
+        writer.println("Here are the tasks in your list:");
         for (int i = 0; i < listSize; i++) {
-            System.out.println((i + 1) + "." + list.get(i));
+            writer.println((i + 1) + "." + list.get(i));
         }
+        writer.flush();
     }
 
     public static void main(String[] args) {
-        Duke duke = new Duke();
+        Duke duke = new Duke(System.in, System.out);
         duke.run();
     }
 }
