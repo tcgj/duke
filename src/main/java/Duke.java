@@ -30,15 +30,15 @@ public class Duke {
                     setTaskDone(Integer.parseInt(input[1]));
                     break;
                 case "todo":
-                    addTask(new Todo(input[1]));
+                    addTask(new TodoTask(input[1]));
                     break;
                 case "deadline":
                     details = input[1].split("\\s+\\/by\\s+", 2);
-                    addTask(new Deadline(details[0], details[1]));
+                    addTask(new DeadlineTask(details[0], details[1]));
                     break;
                 case "event":
                     details = input[1].split("\\s+\\/at\\s+", 2);
-                    addTask(new Event(details[0], details[1]));
+                    addTask(new EventTask(details[0], details[1]));
                     break;
                 default:
                     break;
