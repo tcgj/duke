@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Duke {
+    public static final int CONTINUE_CODE = 0;
+    public static final int EXIT_CODE = 1;
     protected BufferedReader reader;
     protected PrintWriter writer;
     protected ArrayList<Task> list;
@@ -14,24 +16,33 @@ public class Duke {
 
     public int mainFlow() throws IOException {
         String input = reader.readLine();
-        if (input == null || input.equals("bye")) {
-            return 1;
+        if (input == null) {
+            return EXIT_CODE;
         }
 
         try {
-            String[] data = input.split("\\s+", 2);
-            switch (data[0].toLowerCase()) {
+            String[] data = input.split("\\s+|$", 2);
+            data[0] = data[0].toLowerCase();
+            switch (data[0]) {
+                case "bye":
+                    return EXIT_CODE;
                 case "list":
                     displayTaskList();
                     break;
                 case "done":
-                    setTaskDone(data);
+                    setTaskDone(data[1]);
                     break;
-                case "todo": case "deadline": case "event":
-                    addTask(data);
+                case "todo":
+                    addTodo(data[1]);
+                    break;
+                case "deadline":
+                    addDeadline(data[1]);
+                    break;
+                case "event":
+                    addEvent(data[1]);
                     break;
                 case "delete":
-                    deleteTask(data);
+                    deleteTask(data[1]);
                     break;
                 default:
                     throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -40,15 +51,15 @@ public class Duke {
             writer.println(e.getMessage());
             writer.flush();
         } finally {
-            return 0;
+            return CONTINUE_CODE;
         }
     }
 
     protected void run() {
         try {
             greet();
-            int returnCode = 0;
-            while (returnCode == 0) {
+            int returnCode = CONTINUE_CODE;
+            while (returnCode != EXIT_CODE) {
                 returnCode = mainFlow();
             }
             bye();
@@ -71,34 +82,53 @@ public class Duke {
         writer.flush();
     }
 
-    protected void addTask(String[] taskInfo) throws DukeException {
-        String command = taskInfo[0].toLowerCase();
-
-        if (taskInfo.length != 2 || taskInfo[1].isEmpty()) {
-            throw new DukeException("OOPS!!! The description of a " + command + " cannot be empty.");
+    protected void addTodo(String taskInfo) throws DukeException {
+        if (taskInfo.isEmpty()) {
+            throw new DukeException("OOPS!!! The description of a todo cannot be empty.");
         }
 
-        Task task;
-        String[] details;
-        try {
-            if (command.equals("todo")) {
-                task = new TodoTask(taskInfo[1]);
-            } else if (command.equals("deadline")) {
-                details = taskInfo[1].split("\\s+\\/by\\s+", 2);
-                task = new DeadlineTask(details[0], details[1]);
-            } else {
-                details = taskInfo[1].split("\\s+\\/at\\s+", 2);
-                task = new EventTask(details[0], details[1]);
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new DukeException("OOPS!!! You did not specify a datetime.");
-        }
-
+        Task task = new TodoTask(taskInfo);
         list.add(task);
         writer.println("Got it. I've added this task:");
         writer.println("  " + task);
         writer.println("Now you have " + list.size() + " tasks in the list.");
         writer.flush();
+    }
+
+    protected void addDeadline(String taskInfo) throws DukeException {
+        if (taskInfo.isEmpty()) {
+            throw new DukeException("OOPS!!! The description of a deadline cannot be empty.");
+        }
+
+        try {
+            String[] details = taskInfo.split("\\s+/by\\s+", 2);
+            Task task = new DeadlineTask(details[0], details[1]);
+            list.add(task);
+            writer.println("Got it. I've added this task:");
+            writer.println("  " + task);
+            writer.println("Now you have " + list.size() + " tasks in the list.");
+            writer.flush();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new DukeException("OOPS!!! You did not specify a datetime.");
+        }
+    }
+
+    protected void addEvent(String taskInfo) throws DukeException {
+        if (taskInfo.isEmpty()) {
+            throw new DukeException("OOPS!!! The description of a event cannot be empty.");
+        }
+
+        try {
+            String[] details = taskInfo.split("\\s+/at\\s+", 2);
+            Task task = new EventTask(details[0], details[1]);
+            list.add(task);
+            writer.println("Got it. I've added this task:");
+            writer.println("  " + task);
+            writer.println("Now you have " + list.size() + " tasks in the list.");
+            writer.flush();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new DukeException("OOPS!!! You did not specify a datetime.");
+        }
     }
 
     protected Task getTask(String taskStr) throws DukeException {
@@ -112,24 +142,24 @@ public class Duke {
         }
     }
 
-    protected void setTaskDone(String[] data) throws DukeException {
-        if (data.length != 2) {
+    protected void setTaskDone(String index) throws DukeException {
+        if (index.isEmpty()) {
             throw new DukeException("OOPS!!! I don't know which task has been done.");
         }
 
-        Task task = getTask(data[1]);
+        Task task = getTask(index);
         task.markAsDone();
         writer.println("Nice! I've marked this task as done:");
         writer.println("  " + task);
         writer.flush();
     }
 
-    protected void deleteTask(String[] data) throws DukeException {
-        if (data.length != 2) {
+    protected void deleteTask(String index) throws DukeException {
+        if (index.isEmpty()) {
             throw new DukeException("OOPS!!! I don't know which task to delete.");
         }
 
-        Task task = getTask(data[1]);
+        Task task = getTask(index);
         list.remove(task);
         writer.println("Noted. I've removed this task:");
         writer.println("  " + task);
