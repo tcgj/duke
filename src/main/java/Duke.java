@@ -8,9 +8,9 @@ public class Duke {
     protected PrintWriter writer;
     protected ArrayList<Task> list;
 
-    public Duke(InputStream in, OutputStream out) {
+    public Duke(InputStream in, OutputStream out) throws UnsupportedEncodingException {
         reader = new BufferedReader(new InputStreamReader(in));
-        writer = new PrintWriter(out);
+        writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
         list = new ArrayList<>();
     }
 
@@ -177,7 +177,11 @@ public class Duke {
     }
 
     public static void main(String[] args) {
-        Duke duke = new Duke(System.in, System.out);
-        duke.run();
+        try {
+            Duke duke = new Duke(System.in, System.out);
+            duke.run();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }
