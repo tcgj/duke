@@ -24,28 +24,28 @@ public class Duke {
             String[] data = input.split("\\s+|$", 2);
             data[0] = data[0].toLowerCase();
             switch (data[0]) {
-                case "bye":
-                    return EXIT_CODE;
-                case "list":
-                    displayTaskList();
-                    break;
-                case "done":
-                    setTaskDone(data[1]);
-                    break;
-                case "todo":
-                    addTodo(data[1]);
-                    break;
-                case "deadline":
-                    addDeadline(data[1]);
-                    break;
-                case "event":
-                    addEvent(data[1]);
-                    break;
-                case "delete":
-                    deleteTask(data[1]);
-                    break;
-                default:
-                    throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+            case "bye":
+                return EXIT_CODE;
+            case "list":
+                displayTaskList();
+                break;
+            case "done":
+                setTaskDone(data[1]);
+                break;
+            case "todo":
+                addTodo(data[1]);
+                break;
+            case "deadline":
+                addDeadline(data[1]);
+                break;
+            case "event":
+                addEvent(data[1]);
+                break;
+            case "delete":
+                deleteTask(data[1]);
+                break;
+            default:
+                throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         } catch (DukeException e) {
             writer.println(e.getMessage());
