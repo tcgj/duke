@@ -50,9 +50,8 @@ public class Duke {
         } catch (DukeException e) {
             writer.println(e.getMessage());
             writer.flush();
-        } finally {
-            return CONTINUE_CODE;
         }
+        return CONTINUE_CODE;
     }
 
     protected void run() {
