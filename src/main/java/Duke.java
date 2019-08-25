@@ -23,11 +23,13 @@ public class Duke {
     protected BufferedReader reader;
     protected PrintWriter writer;
     protected ArrayList<Task> list;
+    protected Path dataPath;
 
-    public Duke(InputStream in, OutputStream out) throws UnsupportedEncodingException {
+    public Duke(InputStream in, OutputStream out, String saveLocation) throws UnsupportedEncodingException {
         reader = new BufferedReader(new InputStreamReader(in));
         writer = new PrintWriter(new OutputStreamWriter(out, DUKE_CHARSET));
         list = new ArrayList<>();
+        dataPath = Path.of(saveLocation).normalize();
     }
 
     public int mainFlow() throws IOException {
@@ -90,9 +92,9 @@ public class Duke {
     }
 
     protected void loadFromFile() throws IOException {
-        File file = new File("data", "duke.txt");
+        File file = dataPath.toFile();
         if (file.exists()) {
-            try (BufferedReader reader = Files.newBufferedReader(file.toPath(), DUKE_CHARSET)) {
+            try (BufferedReader reader = Files.newBufferedReader(dataPath, DUKE_CHARSET)) {
                 String line = reader.readLine();
                 while (line != null) {
                     String[] data = line.split("\\s|SPACE|\\s", -1);
@@ -104,8 +106,13 @@ public class Duke {
     }
 
     protected void saveToFile() throws IOException {
-        Files.createDirectory(Path.of("data"));
-        Files.write(Path.of("data/duke.txt"), new ArrayList<String>(), DUKE_CHARSET, StandardOpenOption.CREATE);
+        Files.createDirectories(dataPath.getParent());
+        ArrayList<String> test = new ArrayList<>();
+        test.add("test");
+        Files.write(
+                dataPath,
+                test,
+                DUKE_CHARSET);
     }
 
     protected void greet() {
@@ -215,7 +222,11 @@ public class Duke {
 
     public static void main(String[] args) {
         try {
-            Duke duke = new Duke(System.in, System.out);
+            String path = "data/duke.txt";
+            if (args.length > 0) {
+                path = args[0];
+            }
+            Duke duke = new Duke(System.in, System.out, path);
             duke.run();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
