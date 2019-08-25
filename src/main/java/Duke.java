@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Duke {
+    public static final Charset DUKE_CHARSET = StandardCharsets.UTF_8;
     public static final int CONTINUE_CODE = 0;
     public static final int EXIT_CODE = 1;
     protected BufferedReader reader;
@@ -10,7 +11,7 @@ public class Duke {
 
     public Duke(InputStream in, OutputStream out) throws UnsupportedEncodingException {
         reader = new BufferedReader(new InputStreamReader(in));
-        writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
+        writer = new PrintWriter(new OutputStreamWriter(out, DUKE_CHARSET));
         list = new ArrayList<>();
     }
 
