@@ -1,4 +1,19 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 public class Duke {
@@ -57,18 +72,40 @@ public class Duke {
 
     protected void run() {
         try {
+            loadFromFile();
+
             greet();
             int returnCode = CONTINUE_CODE;
             while (returnCode != EXIT_CODE) {
                 returnCode = mainFlow();
             }
             bye();
+            saveToFile();
             reader.close();
         } catch (IOException e) {
             e.printStackTrace(writer);
         } finally {
             writer.close();
         }
+    }
+
+    protected void loadFromFile() throws IOException {
+        File file = new File("data", "duke.txt");
+        if (file.exists()) {
+            try (BufferedReader reader = Files.newBufferedReader(file.toPath(), DUKE_CHARSET)) {
+                String line = reader.readLine();
+                while (line != null) {
+                    String[] data = line.split("\\s|SPACE|\\s", -1);
+                    writer.println(line);
+                    writer.flush();
+                }
+            }
+        }
+    }
+
+    protected void saveToFile() throws IOException {
+        Files.createDirectory(Path.of("data"));
+        Files.write(Path.of("data/duke.txt"), new ArrayList<String>(), DUKE_CHARSET, StandardOpenOption.CREATE);
     }
 
     protected void greet() {
