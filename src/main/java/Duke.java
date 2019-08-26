@@ -1,17 +1,31 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Duke {
+    public static final Charset DUKE_CHARSET = StandardCharsets.UTF_8;
     public static final int CONTINUE_CODE = 0;
     public static final int EXIT_CODE = 1;
     protected BufferedReader reader;
     protected PrintWriter writer;
     protected ArrayList<Task> list;
+    protected Path dataPath;
 
-    public Duke(InputStream in, OutputStream out) throws UnsupportedEncodingException {
+    public Duke(InputStream in, OutputStream out, String saveLocation) {
         reader = new BufferedReader(new InputStreamReader(in));
-        writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
+        writer = new PrintWriter(new OutputStreamWriter(out, DUKE_CHARSET));
         list = new ArrayList<>();
+        dataPath = Path.of(saveLocation).normalize();
     }
 
     public int mainFlow() throws IOException {
@@ -50,25 +64,82 @@ public class Duke {
         } catch (DukeException e) {
             writer.println(e.getMessage());
             writer.flush();
-        } finally {
-            return CONTINUE_CODE;
         }
+        return CONTINUE_CODE;
     }
 
     protected void run() {
         try {
+            loadFromFile();
+
             greet();
             int returnCode = CONTINUE_CODE;
             while (returnCode != EXIT_CODE) {
                 returnCode = mainFlow();
             }
             bye();
+            saveToFile();
             reader.close();
         } catch (IOException e) {
             e.printStackTrace(writer);
         } finally {
             writer.close();
         }
+    }
+
+    protected void loadFromFile() throws IOException {
+        File file = dataPath.toFile();
+        if (file.exists()) {
+            try (BufferedReader reader = Files.newBufferedReader(dataPath, DUKE_CHARSET)) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] data = line.split("\\s\\|SPACE\\|\\s", -1);
+                    boolean done = data[1].equals("1");
+                    switch (data[0]) {
+                    case "T":
+                        list.add(new TodoTask(data[2], done));
+                        break;
+                    case "D":
+                        list.add(new DeadlineTask(data[2], data[3], done));
+                        break;
+                    case "E":
+                        list.add(new EventTask(data[2], data[3], done));
+                        break;
+                    default:
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    protected void saveToFile() throws IOException {
+        Files.createDirectories(dataPath.getParent());
+        ArrayList<String> output = formatList();
+        Files.write(
+                dataPath,
+                output,
+                DUKE_CHARSET);
+    }
+
+    protected ArrayList<String> formatList() {
+        ArrayList<String> outList = new ArrayList<>();
+        String delimiter = " |SPACE| ";
+        for (Task t : list) {
+            if (t.hasArgs()) {
+                outList.add(String.join(delimiter,
+                        t.getType(),
+                        t.isDone() ? "1" : "0",
+                        t.getDescription(),
+                        t.getArgs()));
+            } else {
+                outList.add(String.join(delimiter,
+                        t.getType(),
+                        t.isDone() ? "1" : "0",
+                        t.getDescription()));
+            }
+        }
+        return outList;
     }
 
     protected void greet() {
@@ -148,7 +219,7 @@ public class Duke {
         }
 
         Task task = getTask(index);
-        task.markAsDone();
+        task.setDone(true);
         writer.println("Nice! I've marked this task as done:");
         writer.println("  " + task);
         writer.flush();
@@ -177,11 +248,11 @@ public class Duke {
     }
 
     public static void main(String[] args) {
-        try {
-            Duke duke = new Duke(System.in, System.out);
-            duke.run();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        String path = "data/duke.txt";
+        if (args.length > 0) {
+            path = args[0];
         }
+        Duke duke = new Duke(System.in, System.out, path);
+        duke.run();
     }
 }
