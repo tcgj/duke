@@ -1,7 +1,9 @@
-public class DeadlineTask extends Task {
-    protected String by;
+import java.util.Date;
 
-    public DeadlineTask(String description, String by) {
+public class DeadlineTask extends Task {
+    protected Date by;
+
+    public DeadlineTask(String description, Date by) {
         super(description);
         this.by = by;
     }

@@ -1,7 +1,9 @@
-public class EventTask extends Task {
-    protected String at;
+import java.util.Date;
 
-    public EventTask(String description, String at) {
+public class EventTask extends Task {
+    protected Date at;
+
+    public EventTask(String description, Date at) {
         super(description);
         this.at = at;
     }
