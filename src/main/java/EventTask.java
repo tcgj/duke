@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EventTask extends Task {
@@ -19,7 +20,7 @@ public class EventTask extends Task {
 
     @Override
     public String getArgs() {
-        return datetime.toString();
+        return new SimpleDateFormat("dd/MM/yyyy HHmm").format(datetime);
     }
 
     @Override

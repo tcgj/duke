@@ -1,3 +1,5 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DeadlineTask extends Task {
@@ -19,7 +21,7 @@ public class DeadlineTask extends Task {
 
     @Override
     public String getArgs() {
-        return deadline.toString();
+        return new SimpleDateFormat("dd/MM/yyyy HHmm").format(deadline);
     }
 
     @Override

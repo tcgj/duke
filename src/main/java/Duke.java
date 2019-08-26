@@ -103,15 +103,19 @@ public class Duke {
                         list.add(new TodoTask(data[2], done));
                         break;
                     case "D":
-                        list.add(new DeadlineTask(data[2], data[3], done));
+                        Date deadline = new SimpleDateFormat("dd/MM/yyyy HHmm").parse(data[3]);
+                        list.add(new DeadlineTask(data[2], deadline, done));
                         break;
                     case "E":
-                        list.add(new EventTask(data[2], data[3], done));
+                        Date datetime = new SimpleDateFormat("dd/MM/yyyy HHmm").parse(data[3]);
+                        list.add(new EventTask(data[2], datetime, done));
                         break;
                     default:
                         break;
                     }
                 }
+            } catch (ParseException e) {
+                e.printStackTrace(writer);
             }
         }
     }
