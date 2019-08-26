@@ -1,19 +1,15 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 public class Duke {
@@ -25,7 +21,7 @@ public class Duke {
     protected ArrayList<Task> list;
     protected Path dataPath;
 
-    public Duke(InputStream in, OutputStream out, String saveLocation) throws UnsupportedEncodingException {
+    public Duke(InputStream in, OutputStream out, String saveLocation) {
         reader = new BufferedReader(new InputStreamReader(in));
         writer = new PrintWriter(new OutputStreamWriter(out, DUKE_CHARSET));
         list = new ArrayList<>();
@@ -95,11 +91,23 @@ public class Duke {
         File file = dataPath.toFile();
         if (file.exists()) {
             try (BufferedReader reader = Files.newBufferedReader(dataPath, DUKE_CHARSET)) {
-                String line = reader.readLine();
-                while (line != null) {
-                    String[] data = line.split("\\s|SPACE|\\s", -1);
-                    writer.println(line);
-                    writer.flush();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] data = line.split("\\s\\|SPACE\\|\\s", -1);
+                    boolean done = data[1].equals("1");
+                    switch (data[0]) {
+                    case "T":
+                        list.add(new TodoTask(data[2], done));
+                        break;
+                    case "D":
+                        list.add(new DeadlineTask(data[2], data[3], done));
+                        break;
+                    case "E":
+                        list.add(new EventTask(data[2], data[3], done));
+                        break;
+                    default:
+                        break;
+                    }
                 }
             }
         }
@@ -107,12 +115,31 @@ public class Duke {
 
     protected void saveToFile() throws IOException {
         Files.createDirectories(dataPath.getParent());
-        ArrayList<String> test = new ArrayList<>();
-        test.add("test");
+        ArrayList<String> output = formatList();
         Files.write(
                 dataPath,
-                test,
+                output,
                 DUKE_CHARSET);
+    }
+
+    protected ArrayList<String> formatList() {
+        ArrayList<String> outList = new ArrayList<>();
+        String delimiter = " |SPACE| ";
+        for (Task t : list) {
+            if (t.hasArgs()) {
+                outList.add(String.join(delimiter,
+                        t.getType(),
+                        t.isDone() ? "1" : "0",
+                        t.getDescription(),
+                        t.getArgs()));
+            } else {
+                outList.add(String.join(delimiter,
+                        t.getType(),
+                        t.isDone() ? "1" : "0",
+                        t.getDescription()));
+            }
+        }
+        return outList;
     }
 
     protected void greet() {
@@ -192,7 +219,7 @@ public class Duke {
         }
 
         Task task = getTask(index);
-        task.markAsDone();
+        task.setDone(true);
         writer.println("Nice! I've marked this task as done:");
         writer.println("  " + task);
         writer.flush();
@@ -221,15 +248,11 @@ public class Duke {
     }
 
     public static void main(String[] args) {
-        try {
-            String path = "data/duke.txt";
-            if (args.length > 0) {
-                path = args[0];
-            }
-            Duke duke = new Duke(System.in, System.out, path);
-            duke.run();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        String path = "data/duke.txt";
+        if (args.length > 0) {
+            path = args[0];
         }
+        Duke duke = new Duke(System.in, System.out, path);
+        duke.run();
     }
 }
