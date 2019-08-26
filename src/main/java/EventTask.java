@@ -1,11 +1,13 @@
-public class EventTask extends Task {
-    protected String datetime;
+import java.util.Date;
 
-    public EventTask(String description, String datetime) {
+public class EventTask extends Task {
+    protected Date datetime;
+
+    public EventTask(String description, Date datetime) {
         this(description, datetime, false);
     }
 
-    public EventTask(String description, String datetime, boolean done) {
+    public EventTask(String description, Date datetime, boolean done) {
         super(description, done);
         this.datetime = datetime;
     }
@@ -17,7 +19,7 @@ public class EventTask extends Task {
 
     @Override
     public String getArgs() {
-        return datetime;
+        return datetime.toString();
     }
 
     @Override

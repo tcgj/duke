@@ -10,7 +10,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Duke {
     public static final Charset DUKE_CHARSET = StandardCharsets.UTF_8;
@@ -173,7 +176,8 @@ public class Duke {
 
         try {
             String[] details = taskInfo.split("\\s+/by\\s+", 2);
-            Task task = new DeadlineTask(details[0], details[1]);
+            Date deadline = new SimpleDateFormat("dd/MM/yyyy HHmm").parse(details[1]);
+            Task task = new DeadlineTask(details[0], deadline);
             list.add(task);
             writer.println("Got it. I've added this task:");
             writer.println("  " + task);
@@ -181,6 +185,8 @@ public class Duke {
             writer.flush();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new DukeException("OOPS!!! You did not specify a datetime.");
+        } catch (ParseException e) {
+            throw new DukeException("OOPS!!! Please specify a date in the form \'dd/mm/yyyy HHMM\'");
         }
     }
 
@@ -191,7 +197,8 @@ public class Duke {
 
         try {
             String[] details = taskInfo.split("\\s+/at\\s+", 2);
-            Task task = new EventTask(details[0], details[1]);
+            Date datetime = new SimpleDateFormat("dd/MM/yyyy HHmm").parse(details[1]);
+            Task task = new EventTask(details[0], datetime);
             list.add(task);
             writer.println("Got it. I've added this task:");
             writer.println("  " + task);
@@ -199,6 +206,8 @@ public class Duke {
             writer.flush();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new DukeException("OOPS!!! You did not specify a datetime.");
+        } catch (ParseException e) {
+            throw new DukeException("OOPS!!! Please specify a date in the form \'dd/mm/yyyy HHMM\'");
         }
     }
 

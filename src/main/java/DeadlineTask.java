@@ -1,11 +1,13 @@
-public class DeadlineTask extends Task {
-    protected String deadline;
+import java.util.Date;
 
-    public DeadlineTask(String description, String deadline) {
+public class DeadlineTask extends Task {
+    protected Date deadline;
+
+    public DeadlineTask(String description, Date deadline) {
         this(description, deadline, false);
     }
 
-    public DeadlineTask(String description, String deadline, boolean done) {
+    public DeadlineTask(String description, Date deadline, boolean done) {
         super(description, done);
         this.deadline = deadline;
     }
@@ -17,7 +19,7 @@ public class DeadlineTask extends Task {
 
     @Override
     public String getArgs() {
-        return deadline;
+        return deadline.toString();
     }
 
     @Override
