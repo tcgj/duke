@@ -1,3 +1,10 @@
+package duke;
+
+import duke.task.DeadlineTask;
+import duke.task.EventTask;
+import duke.task.Task;
+import duke.task.TodoTask;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -150,7 +157,7 @@ public class Duke {
     }
 
     protected void greet() {
-        String helloText = "Hello! I'm Duke\nWhat can I do for you?";
+        String helloText = "Hello! I'm duke.Duke\nWhat can I do for you?";
         writer.println(helloText);
         writer.flush();
     }
