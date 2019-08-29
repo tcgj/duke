@@ -1,5 +1,7 @@
 package duke.task;
 
+import java.util.Date;
+
 public class TodoTask extends Task {
     public TodoTask(String description) {
         this(description, false);
@@ -10,13 +12,8 @@ public class TodoTask extends Task {
     }
 
     @Override
-    public boolean hasArgs() {
-        return false;
-    }
-
-    @Override
-    public String getArgs() {
-        return "";
+    public Date getDate() {
+        return null;
     }
 
     @Override

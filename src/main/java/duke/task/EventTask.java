@@ -1,6 +1,5 @@
 package duke.task;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EventTask extends Task {
@@ -16,13 +15,8 @@ public class EventTask extends Task {
     }
 
     @Override
-    public boolean hasArgs() {
-        return true;
-    }
-
-    @Override
-    public String getArgs() {
-        return new SimpleDateFormat("dd/MM/yyyy HHmm").format(datetime);
+    public Date getDate() {
+        return datetime;
     }
 
     @Override

@@ -1,19 +1,21 @@
 package duke.task;
 
-public abstract class Task {
-    protected final String description;
-    protected boolean done;
+import java.util.Date;
 
-    public Task(String description, boolean done) {
+public abstract class Task {
+    private final String description;
+    private boolean isDone;
+
+    protected Task(String description, boolean isDone) {
         this.description = description;
-        this.done = done;
+        this.isDone = isDone;
     }
 
     public boolean isDone() {
-        return done;
+        return isDone;
     }
 
-    public abstract boolean hasArgs();
+    public abstract Date getDate();
 
     public abstract String getType();
 
@@ -21,14 +23,12 @@ public abstract class Task {
         return description;
     }
 
-    public abstract String getArgs();
-
-    public void setDone(boolean done) {
-        this.done = done;
+    public void setDone(boolean isDone) {
+        this.isDone = isDone;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", (done ? "\u2713" : "\u2718"), description);
+        return String.format("[%s] %s", (isDone ? "\u2713" : "\u2718"), description);
     }
 }
