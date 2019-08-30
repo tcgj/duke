@@ -57,7 +57,7 @@ public class Duke {
         this.storage = storage;
     }
 
-    private int mainFlow() throws IOException {
+    private int executeMainFlow() throws IOException {
         String input = ui.getMessage();
         if (input == null) {
             return CODE_EXIT;
@@ -83,7 +83,7 @@ public class Duke {
             ui.sendGreeting();
             int returnCode = CODE_CONTINUE;
             while (returnCode != CODE_EXIT) {
-                returnCode = mainFlow();
+                returnCode = executeMainFlow();
             }
             storage.save(taskList);
         } catch (IOException e) {

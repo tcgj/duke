@@ -12,7 +12,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class TaskList implements Iterable<Task> {
-    private List<Task> list;
+    private List<Task> tasks;
 
     /**
      * Creates a new empty <code>TaskList</code>.
@@ -27,7 +27,7 @@ public class TaskList implements Iterable<Task> {
      * @param tasks the list of tasks to form this <code>TaskList</code>.
      */
     public TaskList(List<Task> tasks) {
-        list = tasks;
+        this.tasks = tasks;
     }
 
     /**
@@ -36,7 +36,7 @@ public class TaskList implements Iterable<Task> {
      * @return the number of tasks in the list.
      */
     public int getTaskCount() {
-        return list.size();
+        return tasks.size();
     }
 
     /**
@@ -48,7 +48,7 @@ public class TaskList implements Iterable<Task> {
      */
     public Task getTask(int taskNo) throws DukeListException {
         try {
-            return list.get(taskNo - 1);
+            return tasks.get(taskNo - 1);
         } catch (IndexOutOfBoundsException e) {
             throw new DukeListException("Task #" + taskNo + " does not exist.");
         }
@@ -60,7 +60,7 @@ public class TaskList implements Iterable<Task> {
      * @param task the task to be added.
      */
     public void addTask(Task task) {
-        list.add(task);
+        tasks.add(task);
     }
 
     /**
@@ -69,11 +69,11 @@ public class TaskList implements Iterable<Task> {
      * @param task the task to be removed.
      */
     public void removeTask(Task task) {
-        list.remove(task);
+        tasks.remove(task);
     }
 
     @Override
     public Iterator<Task> iterator() {
-        return list.iterator();
+        return tasks.iterator();
     }
 }
