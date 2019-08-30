@@ -15,6 +15,7 @@ public class Parser {
         commandMap.put("todo", CommandBuilder.getCommandBuilder(new TodoCommand()));
         commandMap.put("event", CommandBuilder.getCommandBuilder(new EventCommand()));
         commandMap.put("deadline", CommandBuilder.getCommandBuilder(new DeadlineCommand()));
+        commandMap.put("find", CommandBuilder.getCommandBuilder(new FindCommand()));
         commandMap.put("list", CommandBuilder.getCommandBuilder(new ListCommand()));
         commandMap.put("done", CommandBuilder.getCommandBuilder(new DoneCommand()));
         commandMap.put("delete", CommandBuilder.getCommandBuilder(new DeleteCommand()));
