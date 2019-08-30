@@ -10,6 +10,11 @@ import duke.ui.Ui;
 
 import java.util.List;
 
+/**
+ * Represents a todo command entered by the user.
+ *
+ * @author Terence Chong Guang Jun
+ */
 public class TodoCommand extends Command {
     TodoCommand() {
         super();

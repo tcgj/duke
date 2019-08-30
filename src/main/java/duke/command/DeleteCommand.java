@@ -10,6 +10,11 @@ import duke.ui.Ui;
 
 import java.util.List;
 
+/**
+ * Represents a delete command entered by the user.
+ *
+ * @author Terence Chong Guang Jun
+ */
 public class DeleteCommand extends Command {
     DeleteCommand() {
         super();

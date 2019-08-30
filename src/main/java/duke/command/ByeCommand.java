@@ -7,6 +7,11 @@ import duke.ui.Ui;
 
 import java.util.List;
 
+/**
+ * Represents a bye command entered by the user.
+ *
+ * @author Terence Chong Guang Jun
+ */
 public class ByeCommand extends Command {
     ByeCommand() {
         super();
