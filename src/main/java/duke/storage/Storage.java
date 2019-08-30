@@ -10,6 +10,7 @@ import duke.task.TaskList;
 import duke.task.TodoTask;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -72,10 +73,13 @@ public class Storage {
     public void save(TaskList taskList) throws IOException {
         Files.createDirectories(filePath.getParent());
         List<String> output = formatOutputList(taskList);
-        Files.write(
-                filePath,
-                output,
-                charset);
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, charset)) {
+            for (String line : output) {
+                writer.write(line);
+                writer.newLine();
+            }
+            writer.flush();
+        }
     }
 
     private List<String> formatOutputList(TaskList taskList) {
