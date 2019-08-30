@@ -9,8 +9,8 @@ public class EventTask extends Task {
         this(description, datetime, false);
     }
 
-    public EventTask(String description, Date datetime, boolean done) {
-        super(description, done);
+    public EventTask(String description, Date datetime, boolean isDone) {
+        super(description, isDone);
         this.datetime = datetime;
     }
 

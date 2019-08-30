@@ -9,8 +9,8 @@ public class DeadlineTask extends Task {
         this(description, deadline, false);
     }
 
-    public DeadlineTask(String description, Date deadline, boolean done) {
-        super(description, done);
+    public DeadlineTask(String description, Date deadline, boolean isDone) {
+        super(description, isDone);
         this.deadline = deadline;
     }
 

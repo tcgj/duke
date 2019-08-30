@@ -7,8 +7,8 @@ public class TodoTask extends Task {
         this(description, false);
     }
 
-    public TodoTask(String description, boolean done) {
-        super(description, done);
+    public TodoTask(String description, boolean isDone) {
+        super(description, isDone);
     }
 
     @Override
