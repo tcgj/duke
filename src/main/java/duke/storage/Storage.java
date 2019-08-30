@@ -54,7 +54,7 @@ public class Storage {
      * Reads the task list from file. If the file does not exist, an empty task list is returned.
      *
      * @return the task list read from file, or a new task list if the file does not exist.
-     * @throws IOException if the file input cannot be read.
+     * @throws IOException If the file input cannot be read.
      */
     public TaskList load() throws IOException {
         File file = filePath.toFile();
@@ -96,7 +96,7 @@ public class Storage {
      * Writes the task list to file. Creates a new file if it does not exist along with any parent directories.
      *
      * @param taskList the task list to be written.
-     * @throws IOException if the file cannot be written to.
+     * @throws IOException If the file cannot be written to.
      */
     public void save(TaskList taskList) throws IOException {
         Files.createDirectories(filePath.getParent());

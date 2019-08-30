@@ -44,7 +44,7 @@ public class TaskList implements Iterable<Task> {
      *
      * @param taskNo the position of the task.
      * @return the specified task.
-     * @throws DukeListException if the task specified by the position does not exist.
+     * @throws DukeListException If the task specified by the position does not exist.
      */
     public Task getTask(int taskNo) throws DukeListException {
         try {

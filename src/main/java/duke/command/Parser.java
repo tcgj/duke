@@ -32,7 +32,7 @@ public class Parser {
      *
      * @param input the string to be parsed.
      * @return the command that represents the user input.
-     * @throws DukeParserException if the command provided is invalid or the required date is not specified.
+     * @throws DukeParserException If the command provided is invalid or the required date is not specified.
      */
     public static Command parse(String input) throws DukeParserException {
         String[] data = input.trim().split("\\s+", 2);
@@ -65,7 +65,7 @@ public class Parser {
      *
      * @param str the string to be parsed.
      * @return the date object representing the date.
-     * @throws DukeParserException if the date is not formatted correctly.
+     * @throws DukeParserException If the date is not formatted correctly.
      */
     public static Date parseDate(String str) throws DukeParserException {
         try {
@@ -81,7 +81,7 @@ public class Parser {
      *
      * @param str the string to be parsed.
      * @return the integer value of the string.
-     * @throws DukeParserException if the string given is not a valid integer.
+     * @throws DukeParserException If the string given is not a valid integer.
      */
     public static int parseInt(String str) throws DukeParserException {
         try {

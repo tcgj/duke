@@ -41,7 +41,7 @@ public class Ui {
      * Gets the next entire message line sent by the user.
      *
      * @return the message string read from the user input.
-     * @throws IOException if the user input cannot be read.
+     * @throws IOException If the user input cannot be read.
      */
     public String getMessage() throws IOException {
        return reader.readLine();
