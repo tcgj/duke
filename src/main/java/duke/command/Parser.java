@@ -7,6 +7,11 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Represents a parser for string inputs.
+ *
+ * @author Terence Chong Guang Jun
+ */
 public class Parser {
     private static HashMap<String, CommandBuilder> commandMap;
 
@@ -21,6 +26,14 @@ public class Parser {
         commandMap.put("bye", CommandBuilder.getCommandBuilder(new ByeCommand()));
     };
 
+    /**
+     * Parses the entire given input string, and returns the respective command.
+     * The input arguments are stored in the command object.
+     *
+     * @param input the string to be parsed.
+     * @return the command that represents the user input.
+     * @throws DukeParserException If the command provided is invalid or the required date is not specified.
+     */
     public static Command parse(String input) throws DukeParserException {
         String[] data = input.trim().split("\\s+", 2);
         CommandBuilder cmdBuilder = commandMap.get(data[0]);
@@ -47,6 +60,13 @@ public class Parser {
         return cmdBuilder.build();
     }
 
+    /**
+     * Parses the given date string into a date object.
+     *
+     * @param str the string to be parsed.
+     * @return the date object representing the date.
+     * @throws DukeParserException If the date is not formatted correctly.
+     */
     public static Date parseDate(String str) throws DukeParserException {
         try {
             return Duke.DATE_FORMAT.parse(str);
@@ -56,6 +76,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses the given string into an integer.
+     *
+     * @param str the string to be parsed.
+     * @return the integer value of the string.
+     * @throws DukeParserException If the string given is not a valid integer.
+     */
     public static int parseInt(String str) throws DukeParserException {
         try {
             return Integer.parseInt(str);

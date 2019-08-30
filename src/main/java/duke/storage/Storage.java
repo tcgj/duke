@@ -21,19 +21,41 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Represents the storage manager for <code>Duke</code>. Reads and writes the task list to file.
+ *
+ * @author Terence Chong Guang Jun
+ */
 public class Storage {
     private final Charset charset;
     private final Path filePath;
 
+    /**
+     * Creates a new storage with the specified file path in UTF-8 encoding.
+     *
+     * @param path the path of the file for reading and writing.
+     */
     public Storage(String path) {
         this(path, StandardCharsets.UTF_8);
     }
 
+    /**
+     * Creates a new storage with the specified file path and character encoding.
+     *
+     * @param path the path of the file for reading and writing.
+     * @param charset the character encoding to be used.
+     */
     public Storage(String path, Charset charset) {
         filePath = Path.of(path).normalize();
         this.charset = charset;
     }
 
+    /**
+     * Reads the task list from file. If the file does not exist, an empty task list is returned.
+     *
+     * @return the task list read from file, or a new task list if the file does not exist.
+     * @throws IOException If the file input cannot be read.
+     */
     public TaskList load() throws IOException {
         File file = filePath.toFile();
         if (file.exists()) {
@@ -70,6 +92,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Writes the task list to file. Creates a new file if it does not exist along with any parent directories.
+     *
+     * @param taskList the task list to be written.
+     * @throws IOException If the file cannot be written to.
+     */
     public void save(TaskList taskList) throws IOException {
         Files.createDirectories(filePath.getParent());
         List<String> output = formatOutputList(taskList);

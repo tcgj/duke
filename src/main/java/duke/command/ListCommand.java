@@ -7,6 +7,11 @@ import duke.ui.Ui;
 
 import java.util.List;
 
+/**
+ * Represents a list command entered by the user.
+ *
+ * @author Terence Chong Guang Jun
+ */
 public class ListCommand extends Command {
     ListCommand() {
         super();
