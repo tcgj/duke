@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Represents the user interface that provides interaction with the user.
@@ -130,6 +131,22 @@ public class Ui {
             } catch (DukeListException e) {
                 e.printStackTrace();
             }
+        }
+        sendMessage(msg);
+    }
+
+    /**
+     * Sends a message displaying the list of tasks that match
+     * the user's keyword.
+     *
+     * @param matchedTasks the list of tasks that matched the search term.
+     */
+    public void sendTaskMatches(List<Task> matchedTasks) {
+        int listSize = matchedTasks.size();
+        String[] msg = new String[listSize + 1];
+        msg[0] = "Here are the matching tasks in your list:";
+        for (int i = 1; i <= listSize; i++) {
+            msg[i] = i + ". " + matchedTasks.get(i - 1);
         }
         sendMessage(msg);
     }
