@@ -31,7 +31,8 @@ public class DoneCommand extends Command {
         }
         Task task = taskList.getTask(Parser.parseInt(arguments.get(0)));
         task.setDone(true);
-        ui.sendTaskDone(task);
+        ui.sendMessage("Nice! I've marked this task as done:",
+                Ui.INDENT + task);
         return Duke.CODE_CONTINUE;
     }
 

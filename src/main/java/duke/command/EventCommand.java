@@ -1,13 +1,9 @@
 package duke.command;
 
-import duke.Duke;
 import duke.exception.DukeCommandException;
 import duke.exception.DukeException;
-import duke.storage.Storage;
 import duke.task.Task;
-import duke.task.TaskList;
 import duke.task.EventTask;
-import duke.ui.Ui;
 
 import java.util.List;
 
@@ -16,7 +12,7 @@ import java.util.List;
  *
  * @author Terence Chong Guang Jun
  */
-public class EventCommand extends Command {
+public class EventCommand extends AddTaskCommand {
     EventCommand() {
         super();
     }
@@ -26,14 +22,11 @@ public class EventCommand extends Command {
     }
 
     @Override
-    public int execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    protected Task makeTask() throws DukeException {
         if (arguments.size() < 2) {
             throw new DukeCommandException("Event description cannot be empty.");
         }
-        Task task = new EventTask(arguments.get(0), Parser.parseDate(arguments.get(1)));
-        taskList.addTask(task);
-        ui.sendTaskAdded(task, taskList.getTaskCount());
-        return Duke.CODE_CONTINUE;
+        return new EventTask(arguments.get(0), Parser.parseDate(arguments.get(1)));
     }
 
     @Override

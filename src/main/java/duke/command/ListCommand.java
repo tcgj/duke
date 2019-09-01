@@ -1,6 +1,7 @@
 package duke.command;
 
 import duke.Duke;
+import duke.exception.DukeListException;
 import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
@@ -23,7 +24,17 @@ public class ListCommand extends Command {
 
     @Override
     public int execute(TaskList taskList, Ui ui, Storage storage) {
-        ui.sendTaskList(taskList);
+        int listSize = taskList.getTaskCount();
+        String[] msg = new String[listSize + 1];
+        msg[0] = "Here are the tasks in your list:";
+        for (int i = 1; i <= listSize; i++) {
+            try {
+                msg[i] = i + ". " + taskList.getTask(i);
+            } catch (DukeListException e) {
+                e.printStackTrace();
+            }
+        }
+        ui.sendMessage(msg);
         return Duke.CODE_CONTINUE;
     }
 

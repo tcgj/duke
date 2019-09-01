@@ -23,7 +23,7 @@ public class ByeCommand extends Command {
 
     @Override
     public int execute(TaskList taskList, Ui ui, Storage storage) {
-        ui.sendBye();
+        ui.sendMessage("Bye. Hope to see you again soon!");
         return Duke.CODE_EXIT;
     }
 

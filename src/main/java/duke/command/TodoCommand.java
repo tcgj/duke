@@ -1,12 +1,8 @@
 package duke.command;
 
-import duke.Duke;
 import duke.exception.DukeCommandException;
-import duke.storage.Storage;
 import duke.task.Task;
-import duke.task.TaskList;
 import duke.task.TodoTask;
-import duke.ui.Ui;
 
 import java.util.List;
 
@@ -15,7 +11,7 @@ import java.util.List;
  *
  * @author Terence Chong Guang Jun
  */
-public class TodoCommand extends Command {
+public class TodoCommand extends AddTaskCommand {
     TodoCommand() {
         super();
     }
@@ -25,14 +21,11 @@ public class TodoCommand extends Command {
     }
 
     @Override
-    public int execute(TaskList taskList, Ui ui, Storage storage) throws DukeCommandException {
+    protected Task makeTask() throws DukeCommandException {
         if (arguments.size() < 1) {
             throw new DukeCommandException("Todo description cannot be empty.");
         }
-        Task task = new TodoTask(arguments.get(0));
-        taskList.addTask(task);
-        ui.sendTaskAdded(task, taskList.getTaskCount());
-        return Duke.CODE_CONTINUE;
+        return new TodoTask(arguments.get(0));
     }
 
     @Override

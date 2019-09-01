@@ -80,7 +80,8 @@ public class Duke {
         try {
             taskList = storage.load();
 
-            ui.sendGreeting();
+            ui.sendMessage("Hello! I'm Duke",
+                    "What can I do for you?");
             int returnCode = CODE_CONTINUE;
             while (returnCode != CODE_EXIT) {
                 returnCode = executeMainFlow();

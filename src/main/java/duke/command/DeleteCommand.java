@@ -31,7 +31,9 @@ public class DeleteCommand extends Command {
         }
         Task task = taskList.getTask(Parser.parseInt(arguments.get(0)));
         taskList.removeTask(task);
-        ui.sendTaskDeleted(task, taskList.getTaskCount());
+        ui.sendMessage("Noted. I've removed this task:",
+                Ui.INDENT + task,
+                "Now you have " + taskList.getTaskCount() + " tasks in the list.");
         return Duke.CODE_CONTINUE;
     }
 

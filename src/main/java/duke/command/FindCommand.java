@@ -36,7 +36,14 @@ public class FindCommand extends Command {
                 matchedTasks.add(task);
             }
         }
-        ui.sendTaskMatches(matchedTasks);
+
+        int listSize = matchedTasks.size();
+        String[] msg = new String[listSize + 1];
+        msg[0] = "Here are the matching tasks in your list:";
+        for (int i = 1; i <= listSize; i++) {
+            msg[i] = i + ". " + matchedTasks.get(i - 1);
+        }
+        ui.sendMessage(msg);
         return Duke.CODE_CONTINUE;
     }
 

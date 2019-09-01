@@ -1,9 +1,5 @@
 package duke.ui;
 
-import duke.exception.DukeListException;
-import duke.task.Task;
-import duke.task.TaskList;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +8,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-import java.util.List;
 
 /**
  * Represents the user interface that provides interaction with the user.
@@ -20,7 +15,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class Ui {
-    private static final String TASK_INDENT = "  ";
+    public static final String INDENT = "  ";
 
     protected final BufferedReader reader;
     protected final PrintWriter writer;
@@ -59,96 +54,6 @@ public class Ui {
             writer.println(line);
         }
         writer.flush();
-    }
-
-    /**
-     * Sends a fixed greeting message to the user.
-     */
-    public void sendGreeting() {
-        sendMessage("Hello! I'm Duke",
-                "What can I do for you?");
-    }
-
-    /**
-     * Sends a fixed goodbye message to the user.
-     */
-    public void sendBye() {
-        sendMessage("Bye. Hope to see you again soon!");
-    }
-
-    /**
-     * Sends a message specifying the <code>Task</code> that has been
-     * added to the <code>TaskList</code>, as well as the number of tasks
-     * currently in the list.
-     *
-     * @param task the <code>Task</code> that has been added.
-     * @param taskCount the number of tasks currently in the list.
-     */
-    public void sendTaskAdded(Task task, int taskCount) {
-        sendMessage("Got it. I've added this task:",
-                TASK_INDENT + task,
-                "Now you have " + taskCount + " tasks in the list.");
-    }
-
-    /**
-     * Sends a message specifying the <code>Task</code> that has been
-     * marked completed.
-     *
-     * @param task the <code>Task</code> that has been completed.
-     */
-    public void sendTaskDone(Task task) {
-        sendMessage("Nice! I've marked this task as done:",
-                TASK_INDENT + task);
-    }
-
-    /**
-     * Sends a message specifying the <code>Task</code> that has been
-     * deleted from the <code>TaskList</code>, as well as the number of tasks
-     * remaining in the list.
-     *
-     * @param task the <code>Task</code> that has been deleted
-     * @param taskCount the number of tasks remaining in the list.
-     */
-    public void sendTaskDeleted(Task task, int taskCount) {
-        sendMessage("Noted. I've removed this task:",
-                TASK_INDENT + task,
-                "Now you have " + taskCount + " tasks in the list.");
-    }
-
-    /**
-     * Sends a message displaying the list of tasks that are
-     * currently in the given <code>TaskList</code>.
-     *
-     * @param taskList the list of tasks to be displayed
-     */
-    public void sendTaskList(TaskList taskList) {
-        int listSize = taskList.getTaskCount();
-        String[] msg = new String[listSize + 1];
-        msg[0] = "Here are the tasks in your list:";
-        for (int i = 1; i <= listSize; i++) {
-            try {
-                msg[i] = i + ". " + taskList.getTask(i);
-            } catch (DukeListException e) {
-                e.printStackTrace();
-            }
-        }
-        sendMessage(msg);
-    }
-
-    /**
-     * Sends a message displaying the list of tasks that match
-     * the user's keyword.
-     *
-     * @param matchedTasks the list of tasks that matched the search term.
-     */
-    public void sendTaskMatches(List<Task> matchedTasks) {
-        int listSize = matchedTasks.size();
-        String[] msg = new String[listSize + 1];
-        msg[0] = "Here are the matching tasks in your list:";
-        for (int i = 1; i <= listSize; i++) {
-            msg[i] = i + ". " + matchedTasks.get(i - 1);
-        }
-        sendMessage(msg);
     }
 
     /**
