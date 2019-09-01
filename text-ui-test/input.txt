@@ -1,11 +1,19 @@
-todo read book
-deadline return book /by June 6th
-event project meeting /at Aug 6th 2-4pm
-todo join sports club
 todo borrow book
+todo read book
+deadline return book /by 01122019 1500
+event project meeting /at 20122019 2200
+todo join sports club
+event project meeting /at 01092019 2100
 done 1
 done 4
 list
-deadline return book /by Sunday
-event project meeting /at Mon 2-4pm
-list
+find book
+random
+todo
+deadline no date given
+event no date given after /at
+done 20
+delete 100
+delete string
+find randomstring
+bye
