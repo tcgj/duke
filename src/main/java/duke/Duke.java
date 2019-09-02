@@ -49,8 +49,10 @@ public class Duke {
     /**
      * Creates a new <code>Duke</code> instance with the given <code>Ui</code> and <code>Storage</code>.
      *
-     * @param ui the ui for this <code>Duke</code>. Reads and prints replies to the user.
-     * @param storage the storage for this <code>Duke</code>. Reads and writes the <code>TaskList</code> to file.
+     * @param ui the ui for this <code>Duke</code>.
+     *           Reads and prints replies to the user.
+     * @param storage the storage for this <code>Duke</code>.
+     *                Reads and writes the <code>TaskList</code> to file.
      */
     public Duke(Ui ui, Storage storage) {
         this.ui = ui;
