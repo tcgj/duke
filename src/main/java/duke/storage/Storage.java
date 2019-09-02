@@ -22,7 +22,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Represents the storage manager for <code>Duke</code>. Reads and writes the task list to file.
+ * Represents the storage manager for <code>Duke</code>.
+ * Reads and writes the task list to file.
  *
  * @author Terence Chong Guang Jun
  */
@@ -93,7 +94,8 @@ public class Storage {
     }
 
     /**
-     * Writes the task list to file. Creates a new file if it does not exist along with any parent directories.
+     * Writes the task list to file.
+     * Creates a new file if it does not exist along with any parent directories.
      *
      * @param taskList the task list to be written.
      * @throws IOException If the file cannot be written to.
