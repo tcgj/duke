@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'checkstyle'
     id 'com.github.johnrengelman.shadow' version '5.1.0'
 }
 
@@ -23,14 +24,18 @@ test {
     useJUnitPlatform()
 }
 
+checkstyle {
+    toolVersion = '8.23'
+}
+
 application {
     // Change this to your main class.
-    mainClassName = "duke.Duke"
+    mainClassName = 'duke.Duke'
 }
 
 shadowJar {
-    archiveBaseName = "duke"
-    archiveVersion = "0.1.0"
+    archiveBaseName = 'duke'
+    archiveVersion = '0.1.0'
     archiveClassifier = null
     archiveAppendix = null
 }

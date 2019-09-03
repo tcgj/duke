@@ -95,6 +95,11 @@ public class Duke {
         ui.close();
     }
 
+    /**
+     * Main method to enter the program.
+     *
+     * @param args the command line arguments entered by the user.
+     */
     public static void main(String[] args) {
         String path = "data/duke.txt";
         if (args.length > 0) {

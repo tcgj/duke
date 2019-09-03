@@ -40,7 +40,7 @@ public class Ui {
      * @throws IOException If the user input cannot be read.
      */
     public String getMessage() throws IOException {
-       return reader.readLine();
+        return reader.readLine();
     }
 
     /**

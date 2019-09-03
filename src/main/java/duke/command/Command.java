@@ -30,10 +30,12 @@ public abstract class Command {
      * @param ui the ui to use.
      * @param storage the storage to use.
      * @return <code>Duke.CODE_CONTINUE</code> if <code>Duke</code> should continue
-     * running, <code>Duke.CODE_EXIT</code> otherwise.
+     *     running, <code>Duke.CODE_EXIT</code> otherwise.
      * @throws DukeException If this command fails to execute.
      */
     public abstract int execute(TaskList taskList, Ui ui, Storage storage) throws DukeException;
+
     abstract String[] getParams();
+
     abstract Command generate(List<String> arguments);
 }
