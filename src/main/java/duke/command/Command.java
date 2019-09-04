@@ -24,16 +24,26 @@ public abstract class Command {
     }
 
     /**
-     * Executes this command, given the task list, user interface, and storage.
+     * Executes this command, given the task list and storage, and returns the response.
      *
      * @param taskList the task list to use.
-     * @param ui the ui to use.
      * @param storage the storage to use.
-     * @return <code>Duke.CODE_CONTINUE</code> if <code>Duke</code> should continue
-     * running, <code>Duke.CODE_EXIT</code> otherwise.
+     * @return An array of strings representing the response by Duke.
+     *     Each array index is a line.
      * @throws DukeException If this command fails to execute.
      */
-    public abstract int execute(TaskList taskList, Ui ui, Storage storage) throws DukeException;
+    public abstract String[] execute(TaskList taskList, Storage storage) throws DukeException;
+
+    /**
+     * Returns whether Duke should exit upon completing the command.
+     * False by default.
+     *
+     * @return <code>true</code> if Duke should exit, <code>false</code> otherwise.
+     */
+    public boolean shouldExit() {
+        return false;
+    }
+
     abstract String[] getParams();
     abstract Command generate(List<String> arguments);
 }

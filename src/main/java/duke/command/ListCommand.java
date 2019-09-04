@@ -23,7 +23,7 @@ public class ListCommand extends Command {
     }
 
     @Override
-    public int execute(TaskList taskList, Ui ui, Storage storage) {
+    public String[] execute(TaskList taskList, Storage storage) {
         int listSize = taskList.getTaskCount();
         String[] msg = new String[listSize + 1];
         msg[0] = "Here are the tasks in your list:";
@@ -34,8 +34,8 @@ public class ListCommand extends Command {
                 e.printStackTrace();
             }
         }
-        ui.sendMessage(msg);
-        return Duke.CODE_CONTINUE;
+
+        return msg;
     }
 
     @Override

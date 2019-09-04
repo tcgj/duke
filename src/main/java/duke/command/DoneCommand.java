@@ -1,12 +1,10 @@
 package duke.command;
 
-import duke.Duke;
 import duke.exception.DukeCommandException;
 import duke.exception.DukeException;
 import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
-import duke.ui.Ui;
 
 import java.util.List;
 
@@ -25,15 +23,14 @@ public class DoneCommand extends Command {
     }
 
     @Override
-    public int execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String[] execute(TaskList taskList, Storage storage) throws DukeException {
         if (arguments.size() < 1) {
             throw new DukeCommandException("Task number cannot be empty.");
         }
         Task task = taskList.getTask(Parser.parseInt(arguments.get(0)));
         task.setDone(true);
-        ui.sendMessage("Nice! I've marked this task as done:",
-                Ui.INDENT + task);
-        return Duke.CODE_CONTINUE;
+        return new String[]{"Nice! I've marked this task as done:",
+                "    " + task};
     }
 
     @Override

@@ -1,10 +1,9 @@
 package duke.command;
 
-import duke.Duke;
 import duke.storage.Storage;
 import duke.task.TaskList;
-import duke.ui.Ui;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -22,9 +21,18 @@ public class ByeCommand extends Command {
     }
 
     @Override
-    public int execute(TaskList taskList, Ui ui, Storage storage) {
-        ui.sendMessage("Bye. Hope to see you again soon!");
-        return Duke.CODE_EXIT;
+    public String[] execute(TaskList taskList, Storage storage) {
+        try {
+            storage.save(taskList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new String[]{"Bye. Hope to see you again soon!"};
+    }
+
+    @Override
+    public boolean shouldExit() {
+        return true;
     }
 
     @Override
