@@ -32,6 +32,9 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(getClass().getResourceAsStream("/images/DaUser.png"));
     private Image dukeImage = new Image(getClass().getResourceAsStream("/images/DaDuke.png"));
 
+    /**
+     * Creates a new MainWindow for the javafx program.
+     */
     public MainWindow() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MainWindow.fxml"));
@@ -43,6 +46,9 @@ public class MainWindow extends AnchorPane {
         }
     }
 
+    /**
+     * Initialises the MainWindow instance.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -51,6 +57,11 @@ public class MainWindow extends AnchorPane {
         );
     }
 
+    /**
+     * Sets the Duke instance for this window.
+     *
+     * @param d the Duke instance to be set.
+     */
     public void setDuke(Duke d) {
         duke = d;
     }

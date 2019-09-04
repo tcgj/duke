@@ -27,9 +27,10 @@ public abstract class AddTaskCommand extends Command {
         Task newTask = makeTask();
         taskList.addTask(newTask);
         return new String[]{
-                "Got it. I've added this task:",
-                "    " + newTask,
-                "Now you have " + taskList.getTaskCount() + " tasks in the list."};
+            "Got it. I've added this task:",
+            "    " + newTask,
+            "Now you have " + taskList.getTaskCount() + " tasks in the list."
+        };
     }
 
     protected abstract Task makeTask() throws DukeException;

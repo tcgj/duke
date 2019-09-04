@@ -29,9 +29,11 @@ public class DeleteCommand extends Command {
         }
         Task task = taskList.getTask(Parser.parseInt(arguments.get(0)));
         taskList.removeTask(task);
-        return new String[]{"Noted. I've removed this task:",
-                "    " + task,
-                "Now you have " + taskList.getTaskCount() + " tasks in the list."};
+        return new String[]{
+            "Noted. I've removed this task:",
+            "    " + task,
+            "Now you have " + taskList.getTaskCount() + " tasks in the list."
+        };
     }
 
     @Override

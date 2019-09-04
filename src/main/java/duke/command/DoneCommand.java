@@ -29,8 +29,10 @@ public class DoneCommand extends Command {
         }
         Task task = taskList.getTask(Parser.parseInt(arguments.get(0)));
         task.setDone(true);
-        return new String[]{"Nice! I've marked this task as done:",
-                "    " + task};
+        return new String[]{
+            "Nice! I've marked this task as done:",
+            "    " + task
+        };
     }
 
     @Override
