@@ -25,7 +25,7 @@ public class Parser {
         commandMap.put("done", CommandBuilder.getCommandBuilder(new DoneCommand()));
         commandMap.put("delete", CommandBuilder.getCommandBuilder(new DeleteCommand()));
         commandMap.put("bye", CommandBuilder.getCommandBuilder(new ByeCommand()));
-    };
+    }
 
     /**
      * Parses the entire given input string, and returns the respective command.

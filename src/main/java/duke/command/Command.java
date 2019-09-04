@@ -45,5 +45,6 @@ public abstract class Command {
     }
 
     abstract String[] getParams();
+
     abstract Command generate(List<String> arguments);
 }

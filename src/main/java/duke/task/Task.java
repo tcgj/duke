@@ -64,6 +64,6 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", (isDone ? "\u2713" : "\u2718"), description);
+        return String.format("[%s] %s", (isDone ? "✓" : "✘"), description);
     }
 }
