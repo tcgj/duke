@@ -1,14 +1,12 @@
 package duke.command;
 
-import duke.Duke;
 import duke.exception.DukeCommandException;
 import duke.exception.DukeException;
 import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
-import duke.ui.Ui;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,25 +24,19 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public int execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String[] execute(TaskList taskList, Storage storage) throws DukeException {
         if (arguments.size() < 1) {
             throw new DukeCommandException("Search term cannot be empty.");
         }
-        List<Task> matchedTasks = new ArrayList<>();
+        List<String> response = new LinkedList<>();
+        response.add("Here are the matching tasks in your list:");
         for (Task task : taskList) {
             if (task.toString().contains(arguments.get(0))) {
-                matchedTasks.add(task);
+                response.add(response.size() + ". " + task);
             }
         }
 
-        int listSize = matchedTasks.size();
-        String[] msg = new String[listSize + 1];
-        msg[0] = "Here are the matching tasks in your list:";
-        for (int i = 1; i <= listSize; i++) {
-            msg[i] = i + ". " + matchedTasks.get(i - 1);
-        }
-        ui.sendMessage(msg);
-        return Duke.CODE_CONTINUE;
+        return response.toArray(new String[response.size()]);
     }
 
     @Override

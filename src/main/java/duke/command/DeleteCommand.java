@@ -1,12 +1,10 @@
 package duke.command;
 
-import duke.Duke;
 import duke.exception.DukeCommandException;
 import duke.exception.DukeException;
 import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
-import duke.ui.Ui;
 
 import java.util.List;
 
@@ -25,16 +23,15 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public int execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String[] execute(TaskList taskList, Storage storage) throws DukeException {
         if (arguments.size() < 1) {
             throw new DukeCommandException("Task number cannot be empty.");
         }
         Task task = taskList.getTask(Parser.parseInt(arguments.get(0)));
         taskList.removeTask(task);
-        ui.sendMessage("Noted. I've removed this task:",
-                Ui.INDENT + task,
-                "Now you have " + taskList.getTaskCount() + " tasks in the list.");
-        return Duke.CODE_CONTINUE;
+        return new String[]{"Noted. I've removed this task:",
+                "    " + task,
+                "Now you have " + taskList.getTaskCount() + " tasks in the list."};
     }
 
     @Override

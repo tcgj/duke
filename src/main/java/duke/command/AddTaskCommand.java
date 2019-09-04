@@ -1,11 +1,9 @@
 package duke.command;
 
-import duke.Duke;
 import duke.exception.DukeException;
 import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
-import duke.ui.Ui;
 
 import java.util.List;
 
@@ -25,14 +23,13 @@ public abstract class AddTaskCommand extends Command {
     }
 
     @Override
-    public int execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String[] execute(TaskList taskList, Storage storage) throws DukeException {
         Task newTask = makeTask();
         taskList.addTask(newTask);
-        ui.sendMessage("Got it. I've added this task:",
-                Ui.INDENT + newTask,
-                "Now you have " + taskList.getTaskCount() + " tasks in the list.");
-
-        return Duke.CODE_CONTINUE;
+        return new String[]{
+                "Got it. I've added this task:",
+                "    " + newTask,
+                "Now you have " + taskList.getTaskCount() + " tasks in the list."};
     }
 
     protected abstract Task makeTask() throws DukeException;
