@@ -59,38 +59,44 @@ public class Storage {
      */
     public TaskList load() throws IOException {
         File file = filePath.toFile();
-        if (file.exists()) {
-            try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
-                List<Task> list = new ArrayList<>();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] data = line.split("\\s\\|DUKE_SPACER\\|\\s", -1);
-                    boolean isDone = data[1].equals("1");
+        if (!file.exists()) {
+            return new TaskList();
+        }
+
+        List<Task> list = new ArrayList<>();
+        try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\s\\|DUKE_SPACER\\|\\s", -1);
+                boolean isDone = data[1].equals("1");
+
+                switch (data[0]) {
+                case "T":
+                    list.add(new TodoTask(data[2], isDone));
+                    break;
+                case "D":
                     try {
-                        switch (data[0]) {
-                        case "T":
-                            list.add(new TodoTask(data[2], isDone));
-                            break;
-                        case "D":
-                            Date deadline = Parser.parseDate(data[3]);
-                            list.add(new DeadlineTask(data[2], deadline, isDone));
-                            break;
-                        case "E":
-                            Date datetime = Parser.parseDate(data[3]);
-                            list.add(new EventTask(data[2], datetime, isDone));
-                            break;
-                        default:
-                            break;
-                        }
+                        Date deadline = Parser.parseDate(data[3]);
+                        list.add(new DeadlineTask(data[2], deadline, isDone));
                     } catch (DukeParserException ignored) {
                         // If date cannot be parsed, too bad, we shall ignore that task.
                     }
+                    break;
+                case "E":
+                    try {
+                        Date datetime = Parser.parseDate(data[3]);
+                        list.add(new EventTask(data[2], datetime, isDone));
+                    } catch (DukeParserException ignored) {
+                        // If date cannot be parsed, too bad, we shall ignore that task.
+                    }
+                    break;
+                default:
+                    // If task type does not exist, ignore that task.
+                    break;
                 }
-                return new TaskList(list);
             }
-        } else {
-            return new TaskList();
         }
+        return new TaskList(list);
     }
 
     /**
