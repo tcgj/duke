@@ -2,7 +2,6 @@ package duke.ui.javafx;
 
 import duke.Duke;
 
-import duke.storage.Storage;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
