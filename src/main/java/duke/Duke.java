@@ -62,6 +62,9 @@ public class Duke {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert ui != null: "UI should not be null";
+        assert storage != null: "Storage should not be null";
+        assert taskList != null: "TaskList should not be null";
     }
 
     private String[] processLine(String input) throws IOException {
@@ -71,6 +74,7 @@ public class Duke {
 
         try {
             Command command = Parser.parse(input);
+            assert command != null: "Command should exist if exception is not thrown";
             willExit = command.shouldExit();
             return command.execute(taskList, storage);
         } catch (DukeException e) {
