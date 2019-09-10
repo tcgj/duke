@@ -41,24 +41,32 @@ public class Parser {
         if (cmdBuilder == null) {
             throw new DukeParserException("I don't understand what that means.");
         }
+        if (data.length != 2) {
+            return cmdBuilder.build();
+        }
 
         cmdBuilder.reset();
         String[] delimiters = cmdBuilder.getParams();
-        if (data.length == 2) {
-            if (delimiters.length > 0) {
-                // multiple arguments. final delimiter will split two arguments.
-                for (String delimiter : delimiters) {
-                    data = data[1].split("\\s" + delimiter + "\\s", 2);
-                    if (data.length < 2) {
-                        throw new DukeParserException("You did not specify a datetime.");
-                    }
-                    cmdBuilder.setArgument(data[0]);
-                }
-            }
+        if (delimiters.length == 0) {
             cmdBuilder.setArgument(data[1]);
+            return cmdBuilder.build();
         }
 
+        // multiple arguments. final delimiter will split two arguments.
+        for (String delimiter : delimiters) {
+            data = splitNextArg(data[1], delimiter);
+            cmdBuilder.setArgument(data[0]);
+        }
+        cmdBuilder.setArgument(data[1]);
         return cmdBuilder.build();
+    }
+
+    private static String[] splitNextArg(String input, String delimiter) throws DukeParserException {
+        String[] args = input.split("\\s" + delimiter + "\\s", 2);
+        if (args.length < 2) {
+            throw new DukeParserException("Missing arguments for \'" + delimiter + "\'");
+        }
+        return args;
     }
 
     /**
