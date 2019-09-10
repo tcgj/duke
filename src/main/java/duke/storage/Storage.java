@@ -91,7 +91,7 @@ public class Storage {
                     }
                     break;
                 default:
-                    // If task type does not exist, ignore that task.
+                    assert false: "Task type " + data[0] + " should not exist.";
                     break;
                 }
             }
