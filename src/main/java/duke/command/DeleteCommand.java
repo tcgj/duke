@@ -14,7 +14,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class DeleteCommand extends Command {
-    public DeleteCommand(List<String> arguments) {
+    DeleteCommand(List<String> arguments) {
         super(arguments);
     }
 

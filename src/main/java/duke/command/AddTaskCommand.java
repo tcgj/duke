@@ -14,7 +14,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public abstract class AddTaskCommand extends Command {
-    protected AddTaskCommand(List<String> arguments) {
+    AddTaskCommand(List<String> arguments) {
         super(arguments);
     }
 

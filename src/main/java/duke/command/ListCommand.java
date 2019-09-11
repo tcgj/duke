@@ -12,7 +12,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class ListCommand extends Command {
-    public ListCommand(List<String> arguments) {
+    ListCommand(List<String> arguments) {
         super(arguments);
     }
 

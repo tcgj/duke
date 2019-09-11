@@ -12,7 +12,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class ByeCommand extends Command {
-    public ByeCommand(List<String> arguments) {
+    ByeCommand(List<String> arguments) {
         super(arguments);
     }
 

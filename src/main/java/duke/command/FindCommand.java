@@ -15,7 +15,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class FindCommand extends Command {
-    public FindCommand(List<String> arguments) {
+    FindCommand(List<String> arguments) {
         super(arguments);
     }
 

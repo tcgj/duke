@@ -12,7 +12,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class TodoCommand extends AddTaskCommand {
-    public TodoCommand(List<String> arguments) {
+    TodoCommand(List<String> arguments) {
         super(arguments);
     }
 

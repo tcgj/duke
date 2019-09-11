@@ -14,7 +14,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class DoneCommand extends Command {
-    public DoneCommand(List<String> arguments) {
+    DoneCommand(List<String> arguments) {
         super(arguments);
     }
 

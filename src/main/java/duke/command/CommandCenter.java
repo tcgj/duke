@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
-public class CommandCenter {
+class CommandCenter {
     private static HashMap<String, Function<List<String>, ? extends Command>> commands;
     private static HashMap<String, String[]> paramsList;
 
@@ -28,11 +28,11 @@ public class CommandCenter {
         }
     }
 
-    public static Function<List<String>, ? extends Command> getCommand(String str) {
+    static Function<List<String>, ? extends Command> getCommand(String str) {
         return commands.get(str);
     }
 
-    public static String[] getParameters(String str) {
+    static String[] getParameters(String str) {
         return paramsList.get(str);
     }
 }
