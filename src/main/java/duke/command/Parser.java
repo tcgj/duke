@@ -6,7 +6,6 @@ import duke.exception.DukeParserException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
@@ -45,7 +44,7 @@ public class Parser {
     }
 
     private static String[] splitNextArg(String input, String delimiter) throws DukeParserException {
-        String[] args = input.split("\\s" + delimiter + "\\s", 2);
+        String[] args = input.split(delimiter, 2);
         if (args.length < 2) {
             throw new DukeParserException("Missing arguments for \'" + delimiter + "\'");
         }
