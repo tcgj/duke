@@ -12,11 +12,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class ByeCommand extends Command {
-    ByeCommand() {
-        super();
-    }
-
-    private ByeCommand(List<String> arguments) {
+    public ByeCommand(List<String> arguments) {
         super(arguments);
     }
 
@@ -33,15 +29,5 @@ public class ByeCommand extends Command {
     @Override
     public boolean shouldExit() {
         return true;
-    }
-
-    @Override
-    String[] getParams() {
-        return new String[0];
-    }
-
-    @Override
-    Command generate(List<String> arguments) {
-        return new ByeCommand(arguments);
     }
 }

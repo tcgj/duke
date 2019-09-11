@@ -14,11 +14,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class DoneCommand extends Command {
-    DoneCommand() {
-        super();
-    }
-
-    private DoneCommand(List<String> arguments) {
+    public DoneCommand(List<String> arguments) {
         super(arguments);
     }
 
@@ -33,15 +29,5 @@ public class DoneCommand extends Command {
             "Nice! I've marked this task as done:",
             "    " + task
         };
-    }
-
-    @Override
-    String[] getParams() {
-        return new String[0];
-    }
-
-    @Override
-    Command generate(List<String> arguments) {
-        return new DoneCommand(arguments);
     }
 }

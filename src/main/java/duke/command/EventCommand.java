@@ -13,11 +13,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class EventCommand extends AddTaskCommand {
-    EventCommand() {
-        super();
-    }
-
-    private EventCommand(List<String> arguments) {
+    public EventCommand(List<String> arguments) {
         super(arguments);
     }
 
@@ -27,15 +23,5 @@ public class EventCommand extends AddTaskCommand {
             throw new DukeCommandException("Event description cannot be empty.");
         }
         return new EventTask(arguments.get(0), Parser.parseDate(arguments.get(1)));
-    }
-
-    @Override
-    String[] getParams() {
-        return new String[]{"/at"};
-    }
-
-    @Override
-    Command generate(List<String> arguments) {
-        return new EventCommand(arguments);
     }
 }

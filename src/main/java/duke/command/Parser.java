@@ -4,8 +4,11 @@ import duke.Duke;
 import duke.exception.DukeParserException;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.function.Function;
 
 /**
  * Represents a parser for string inputs.
@@ -13,20 +16,6 @@ import java.util.HashMap;
  * @author Terence Chong Guang Jun
  */
 public class Parser {
-    private static HashMap<String, CommandBuilder> commandMap;
-
-    static {
-        commandMap = new HashMap<>();
-        commandMap.put("todo", CommandBuilder.getCommandBuilder(new TodoCommand()));
-        commandMap.put("event", CommandBuilder.getCommandBuilder(new EventCommand()));
-        commandMap.put("deadline", CommandBuilder.getCommandBuilder(new DeadlineCommand()));
-        commandMap.put("find", CommandBuilder.getCommandBuilder(new FindCommand()));
-        commandMap.put("list", CommandBuilder.getCommandBuilder(new ListCommand()));
-        commandMap.put("done", CommandBuilder.getCommandBuilder(new DoneCommand()));
-        commandMap.put("delete", CommandBuilder.getCommandBuilder(new DeleteCommand()));
-        commandMap.put("bye", CommandBuilder.getCommandBuilder(new ByeCommand()));
-    }
-
     /**
      * Parses the entire given input string, and returns the respective command.
      * The input arguments are stored in the command object.
@@ -37,28 +26,22 @@ public class Parser {
      */
     public static Command parse(String input) throws DukeParserException {
         String[] data = input.trim().split("\\s+", 2);
-        CommandBuilder cmdBuilder = commandMap.get(data[0]);
-        if (cmdBuilder == null) {
+        Function<List<String>, ? extends Command> command = CommandCenter.getCommand(data[0]);
+        List<String> argsList = new ArrayList<>();
+        if (command == null) {
             throw new DukeParserException("I don't understand what that means.");
         }
         if (data.length != 2) {
-            return cmdBuilder.build();
+            return command.apply(argsList);
         }
 
-        cmdBuilder.reset();
-        String[] delimiters = cmdBuilder.getParams();
-        if (delimiters.length == 0) {
-            cmdBuilder.setArgument(data[1]);
-            return cmdBuilder.build();
-        }
-
-        // multiple arguments. final delimiter will split two arguments.
+        String[] delimiters = CommandCenter.getParameters(data[0]);
         for (String delimiter : delimiters) {
             data = splitNextArg(data[1], delimiter);
-            cmdBuilder.setArgument(data[0]);
+            argsList.add(data[0]);
         }
-        cmdBuilder.setArgument(data[1]);
-        return cmdBuilder.build();
+        argsList.add(data[1]);
+        return command.apply(argsList);
     }
 
     private static String[] splitNextArg(String input, String delimiter) throws DukeParserException {

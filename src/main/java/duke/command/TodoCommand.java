@@ -12,11 +12,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class TodoCommand extends AddTaskCommand {
-    TodoCommand() {
-        super();
-    }
-
-    private TodoCommand(List<String> arguments) {
+    public TodoCommand(List<String> arguments) {
         super(arguments);
     }
 
@@ -26,15 +22,5 @@ public class TodoCommand extends AddTaskCommand {
             throw new DukeCommandException("Todo description cannot be empty.");
         }
         return new TodoTask(arguments.get(0));
-    }
-
-    @Override
-    String[] getParams() {
-        return new String[0];
-    }
-
-    @Override
-    Command generate(List<String> arguments) {
-        return new TodoCommand(arguments);
     }
 }
