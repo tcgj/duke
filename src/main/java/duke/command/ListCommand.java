@@ -1,10 +1,8 @@
 package duke.command;
 
-import duke.Duke;
 import duke.exception.DukeListException;
 import duke.storage.Storage;
 import duke.task.TaskList;
-import duke.ui.Ui;
 
 import java.util.List;
 
@@ -14,11 +12,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class ListCommand extends Command {
-    ListCommand() {
-        super();
-    }
-
-    private ListCommand(List<String> arguments) {
+    ListCommand(List<String> arguments) {
         super(arguments);
     }
 
@@ -36,15 +30,5 @@ public class ListCommand extends Command {
         }
 
         return msg;
-    }
-
-    @Override
-    String[] getParams() {
-        return new String[0];
-    }
-
-    @Override
-    Command generate(List<String> arguments) {
-        return new ListCommand(arguments);
     }
 }

@@ -15,11 +15,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class FindCommand extends Command {
-    FindCommand() {
-        super();
-    }
-
-    private FindCommand(List<String> arguments) {
+    FindCommand(List<String> arguments) {
         super(arguments);
     }
 
@@ -37,15 +33,5 @@ public class FindCommand extends Command {
         }
 
         return response.toArray(new String[response.size()]);
-    }
-
-    @Override
-    String[] getParams() {
-        return new String[0];
-    }
-
-    @Override
-    Command generate(List<String> arguments) {
-        return new FindCommand(arguments);
     }
 }

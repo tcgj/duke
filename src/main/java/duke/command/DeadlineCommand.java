@@ -13,29 +13,15 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class DeadlineCommand extends AddTaskCommand {
-    DeadlineCommand() {
-        super();
-    }
-
-    private DeadlineCommand(List<String> arguments) {
+    DeadlineCommand(List<String> arguments) {
         super(arguments);
     }
 
     @Override
     protected Task makeTask() throws DukeException {
         if (arguments.size() < 2) {
-            throw new DukeCommandException("Deadline description cannot be empty.");
+            throw new DukeCommandException("Deadline arguments cannot be empty.");
         }
         return new DeadlineTask(arguments.get(0), Parser.parseDate(arguments.get(1)));
-    }
-
-    @Override
-    String[] getParams() {
-        return new String[]{"/by"};
-    }
-
-    @Override
-    Command generate(List<String> arguments) {
-        return new DeadlineCommand(arguments);
     }
 }

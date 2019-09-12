@@ -14,11 +14,7 @@ import java.util.List;
  * @author Terence Chong Guang Jun
  */
 public class DeleteCommand extends Command {
-    DeleteCommand() {
-        super();
-    }
-
-    private DeleteCommand(List<String> arguments) {
+    DeleteCommand(List<String> arguments) {
         super(arguments);
     }
 
@@ -34,15 +30,5 @@ public class DeleteCommand extends Command {
             "    " + task,
             "Now you have " + taskList.getTaskCount() + " tasks in the list."
         };
-    }
-
-    @Override
-    String[] getParams() {
-        return new String[0];
-    }
-
-    @Override
-    Command generate(List<String> arguments) {
-        return new DeleteCommand(arguments);
     }
 }
