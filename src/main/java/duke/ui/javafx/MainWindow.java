@@ -2,6 +2,7 @@ package duke.ui.javafx;
 
 import duke.Duke;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -28,8 +29,8 @@ public class MainWindow extends AnchorPane {
 
     private Duke duke;
 
-    private Image userImage = new Image(getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image dukeImage = new Image(getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Image userImage = new Image(getClass().getResourceAsStream("/images/DaYT.png"));
+    private Image dukeImage = new Image(getClass().getResourceAsStream("/images/DaKM.png"));
 
     /**
      * Creates a new MainWindow for the javafx program.
@@ -52,7 +53,7 @@ public class MainWindow extends AnchorPane {
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog("Hello! I'm Duke\nWhat can I do for you?", dukeImage)
+                DialogBox.getDukeDialog("Hello! I'm DA-MING\nWhat can I do for you?", dukeImage)
         );
     }
 
@@ -77,6 +78,9 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getDukeDialog(response, dukeImage)
         );
+        if (response.contains("Bye")) {
+            Platform.exit();
+        }
         userInput.clear();
     }
 }

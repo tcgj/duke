@@ -19,6 +19,7 @@ public class Main extends Application {
 
         mw.setDuke(duke);
         stage.setScene(scene);
+        stage.setTitle("DA-MING");
         stage.show();
     }
 }
