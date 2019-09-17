@@ -96,9 +96,9 @@ Aliases: `a`
 
 * * *
 
-### `bye` - Exit Duke
+### `bye` - Exit DA-MING
 
-Saves task list.
+Saves task list and any existing aliases.
 
 Command: `bye`
 
