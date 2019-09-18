@@ -18,6 +18,8 @@ public class Main extends Application {
         Daming daming = new Daming();
 
         mw.setDaming(daming);
+        stage.setMinHeight(620.0);
+        stage.setMinWidth(400.0);
         stage.setScene(scene);
         stage.setTitle("DA-MING");
         stage.show();
